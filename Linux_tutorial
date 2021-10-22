@@ -1,0 +1,700 @@
+############################## Linux #############################
+
+user -> shell -> kernel -> OS
+
+->shell: shell is a program that provides the the interface between fromm user to OS system
+
+->different types of shell
+
+bash shell
+sh   shell
+ksh  shell
+c    shell
+
+#cat /etc/shells
+
+/bin/sh
+/bin/bash
+/sbin/nologin
+/bin/dash
+/bin/tcsh
+/bin/csh
+
+#echo $SHELL -> to see the present shell in the server.
+
+#which $SHELL command will give you current shell and we can see available shell in /etc/shells file
+
+####################################################################
+
+#hostname - > to see the hostname of the server
+
+#hostname Newhostname  -> to change the hostname of the server
+
+#ifconfig -a > to see the ip adress of the server
+
+#uname -a -> to see the kernnel information of the server
+
+Linux Hostname 2.6.32-754.29.1.el6.x86_64 #1 SMP Wed Apr 22 04:08:08 EDT 2020 x86_64 x86_64 x86_64 GNU/Linux
+
+RHEL 5 - 2.6.18 - kernel version
+RHEL 6 - 2.6.32 - kernel version
+RHEL 7 - 3.10   - kernel versionAW
+RHEL 8 - 4.14   - Kernel Version
+
+#uname -r, uname -m -> to check the whether it is 32 bit or 64 bit
+
+x86_64 - 64
+i386 - 32
+
+#man command  -> to check the description of the command.
+
+#history -> to disply all historical commands in that servers.
+
+#ls -lh -> to display the content under directory
+
+-rwxrwxrwx.      1          root                 root               558    Dec 23 16:49   user-add.sh
+drwxr-xr-x.      2          root                 root              4096    Nov  8  2011   Videos
+permissions  no.acls        owner                group              size   timestamp     filename/directory
+
+#touch filename -> to create file 
+
+#vi filename -> vi editor
+
+i - insert mode
+esc - esc mode
+dd - to delete the partical line
+o - to go to insert mode and next line as well
+:wq - write&quit
+:wq! - write&quit forcefully
+shift + g -> to go last line of the file
+
+#cat filename > to see the content of the file
+
+# > f2 -> nullify file content
+
+#rm filename  -> to delete the file with confirmation.
+
+#rm -rf filename -> remove the file forcefully
+
+#mkdir dirname -> make directory
+
+#cd dirname   -> change directory
+
+#ls -lhrt -> long, human readable formate, reverse, time stamp (ll,ls -l,ls -lht, ls -ld )
+
+#pwd -> present working directory
+
+#cp -p source destination -> it will copy the content along with time stamp
+
+#cp -p deepthi deepthi-20200520 -> take the back up of the file
+
+#scp -p source destination -> to copy the file from one server to another server
+
+#scp -p /tmp/f1  lapdep02:/opt/
+
+10.54.230.1 - lapdep01 - /tmp/f1 - source - 10GB  - 11GB -12GB
+
+10.54.230.2 - lapdep02 - /opt/   - destiantion -10GB -11GB - 12GB
+
+#rync source destination -> to copy the file from one server to another server
+
+#less filename -> to see the content of the file line by line
+
+#more filename -> to see the content of the file page by page
+
+#tail filename -> to see the bottom content of the file
+
+#head filename -> to see the top content of the file
+
+#clear - > to clear the screen
+
+
+
+
+#ls -l
+
+-rwxrwxrwx. 1 root                 root               558 Dec 23 16:49 user-add.sh
+-rwxrwxrwx. 1 root                 root               127 Aug 28  2019 Userdetails.sh
+-rwxrwx---. 1 root                 root               849 Oct 19  2017 userlist
+-rwxrwxrwx. 1 root                 root              4591 May 10 14:43 User.sh
+drwxr-xr-x. 2 root                 root              4096 Nov  8  2011 Videos
+drwxr-x---. 2 root                 root              4096 May 13 01:40 Vinod
+-rw-r-----. 1 root                 root               111 Sep 16  2019 Winbind_status.sh
+-rwxr-xr-x. 1 root                 root            137208 Oct 20  2016 xsos-script.sh
+
+CMD prompt -> shell -> kernel
+
+###############  INODES ########################
+
+Inode is a unique number which contains all information about file or directory like  permissions,ownership,
+size of the file,timestamp.etc is called inode number.
+
+#ls -li test
+7876 -rwxr-xr-x. 1 root root 4937 Nov  4  2019 test
+
+#stat test
+  File: `test'
+  Size: 4937            Blocks: 16         IO Block: 4096   regular file
+Device: fd00h/64768d    Inode: 7876        Links: 1
+Access: (0755/-rwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2019-11-04 13:49:33.957827503 +0800
+Modify: 2019-11-04 13:49:33.954827473 +0800
+Change: 2019-11-04 13:49:33.954827473 +0800
+
+
+########################## softlink vs Hard link #####################
+
+#ln  -s o.f softlinkfile
+
+#ls- lhrt
+_rwxrwxrwx. 1 root              root            4 May 21 11:33 soft
+lrwxrwxrwx. 1 root              root            4 May 21 11:33 soft-sl -> soft
+
+->inode number are different for softlink and original file
+
+#ls -li /root/f2-soft
+208 lrwxrwxrwx. 1 root root 2 May 21 11:36 /root/f2-soft -> f2
+
+#$ ls -li /tmp/f2
+32 -rw-r-----. 1 root root 0 May 21 11:35 /tmp/f2
+
+-> if we delete the original file we can't access the data from softlink file.but we can access the data even though softlink file has been deleted.
+
+-> we can create soft link both files and directories.
+--------------------------------------------------------------
+--------------------------------------------------------------
+#ln of hardlinkfile
+
+#ls -lhrt
+-rw-r-----. 2 root              root            0 May 21 11:46 deepthi-hard
+-rw-r-----. 2 root              root            0 May 21 11:46 deepthi
+
+#inode numbers are same
+
+#ls -li deepthi-hard
+33 -rw-r-----. 2 root root 0 May 21 11:46 deepthi-hard
+#ls -li deepthi
+33 -rw-r-----. 2 root root 0 May 21 11:46 deepthi
+
+-> we can't create hardlink for directory
+
+#################### Services ################################
+
+#service servicename start/stop/restart/reload/status
+
+#service sshd start  -> to start the service manually/temparily
+
+#service ntpd stop   -> to stop the service manually
+
+#service sshd status -> to see the status of the service manually
+
+#chkconfig --list    -> to see the all services status
+
+#chkconfig --level 35 winbind on -> to enable the service perminantly
+
+####################### runlevels ############################
+
+/etc/inittab - configuaration file
+
+id:3:initdefault:
+
+
+#   0 - halt (Do NOT set initdefault to this)
+#   1 - Single user mode
+#   2 - Multiuser, without NFS (The same as 3, if you do not have networking)
+#   3 - Full multiuser mode (default)
+#   4 - unused
+#   5 - X11 (GUI)
+#   6 - reboot (Do NOT set initdefault to this)
+
+# who -r -> to check the current run level
+         run-level 3  2020-05-08 20:56
+
+# who -b -> how long server is up and running
+         system boot  2020-05-08 20:56
+
+
+1. how to change the run level from 3 to 5?
+
+#init 5 (tempararily)
+
+2.how to change the run level from 3 to 5 perminantly?
+
+#vi /etc/inittab
+
+id:3:initdefault: -> id:5:initdefault:
+
+
+################## permissions & ownership ##################
+#ls -l
+-rwxrwxrwx. 1 root                 root               558 Dec 23 16:49 user-add.sh
+-rwxr-xrwx. 1 deepthi               IBM               558 Dec 23 16:49 deepthi
+-rwxrwxrwx. 1 Deethi 		  Maratahlli         4591 May 10 14:43 Marathalli
+drwxr-xr--. 2 root                 Team		     4096 Nov  8  2011 Videos
+ 
+  
+
+- rwx     r-x       rwx
+ owner   group    others
+
+
+r - 4 - read
+w - 2 - write
+x - 1 - execute
+
+7 - rwx
+6 - rw
+5 - rx 
+4 - r
+3 - wx
+2 - w
+1 - x
+
+1.how to change to the permissions  from 755 to 700?
+
+#chmod 700 filename/dirname
+
+2.how to change the permissions from 755 to 644 recursively/subdirectors?
+
+#chmod -R 700 filename/dirname
+
+Ownership 
+
+#ls -l
+-rwxrwxrwx. 1 root                 root               558 Dec 23 16:49 user-add.sh
+-rwxrwxrwx. 1 deepthi               IBM               558 Dec 23 16:49 deepthi
+-rwxrwxrwx. 1 Deethi 		  Maratahlli         4591 May 10 14:43 Marathalli
+drwxr-xr-x. 2 root                 root              4096 Nov  8  2011 Videos
+
+1 how to change the ownership from root:root to deepthi:deepthi for the file?
+
+#chown owner:group  file/dir
+
+#chown deepthi:deepthi file/dir
+
+#chown deepthi file
+
+#chown :deepthi file
+
+############################ usermanagement ############################
+
+1. /etc/passwd - user details - 7 fields
+
+username:X:uid:gid:comment:home directory:shell
+
+deepthi:x:5572:5572:Comment:/home/deepthi:/bin/bash
+
+#id username - to see the user details.
+
+#useradd deepthi               -> to create a user
+
+#passwd deepthi                -> to set the password for the user
+
+#usermod  -u 5571 U.N          - >to change the uid of the user
+
+#usermod  -g 5574 U.N          -> to change the gid of the user
+
+#usermod  -c Linux U.N         -> to change the commnet of the user
+
+#usermod  -d /tmp/deepthi U.N  -> to change the home directory of the user
+
+#usermod  -s /bin/ksh U.N     -> to change the shell of the user
+
+different types of shell
+
+bash shell
+sh   shell
+ksh  shell
+c    shell
+
+
+#useradd -u uid -g gid -s /bin/bash -d home direcotry -c " description of the user" Username
+
+
+2. /etc/shadow - user's password related information
+
+deepthi:$6$RMxNdjIa$am6EygcdpEuy9NREEzWdf2O2ziuYp0lIInbjSpHPqCuT0Verrru1:18408:7:60:10:35::
+
+username:Encrpt password:number of days since the password change(1970 jan 1st):min:MAX:Warning:inactive:expire
+
+
+
+# cat /etc/shadow | grep -i deepthi
+deepthi:!!:18408:7:60:7:35::
+
+# passwd -S deepthi
+deepthi LK 2020-05-26 7 60 7 35 (Password locked.)
+
+after set the password
+
+# cat /etc/shadow | grep -i deepthi
+deepthi:$6$RMxNdjIa$am6EygcdpEuy9NREEzWdf2O2ziuYp0lIInbjSpHPqCuT0Verrru1:18408:7:60:7:35::
+
+#passwd -S deepthi
+deepthi PS 2020-05-26 7 60 7 35 (Password set, SHA512 crypt.)
+
+-> encryption methods
+
+$1$ - MD5 
+$5$ - SHA256
+$6$ - SHA512
+
+#cat /etc/pam.d/system-auth -> to change the encryption method from MD5 to SHA512/SHA256
+password    sufficient    pam_unix.so md5 shadow nullok try_first_pass use_authtok
+
+
+#chage -l deepthi      -> to see the password expired information for the user.
+Last password change                                    : May 26, 2020
+Password expires                                        : Jul 25, 2020
+Password inactive                                       : Aug 29, 2020
+Account expires                                         : never
+Minimum number of days between password change          : 7
+Maximum number of days between password change          : 60
+Number of days of warning before password expires       : 7
+
+#chage -d "2020-05-26" deepthi  -> to extend the password validity
+
+#chage -m 0 deepthi
+
+#chage -M 90 deepthi
+
+#chage - W 10 deepthi
+
+#passwd -x -1 deepthi 
+
+#userdel username      -> to delete the user
+
+#userdel -rf username  -> to delete te user along with home directory
+
+
+############################### sudoers #################################
+
+ /etc/sudoers  -> configuaration file
+
+syntax:
+
+username	ALL=(ALL)	NOPASSWD: ALL
+%groupname	ALL=(ALL)	NOPASSWD: ALL
+
+#which  -> to check the full path of the command
+
+#su username   -> to switch to another user
+
+#su - username -> to switch to another user
+
+#sudo su -     -> to switch as a root user
+
+#sudo -i       -> to switch as a root user
+
+#sudo -s       -> to swith as a root user
+
+#cp -p /etc/sudoers /etc/sudoers`date -I`
+
+#vi /etc/sudoers
+
+ravi9		ALL=(ALL)	NOPASSWD: ALL  -> to provide the root access for user ravi9 we give these entries in /etc/sudoers
+
+ravi9		ALL=(ALL)	NOPASSWD: /sbin/ifconfig, -> to provide the access for one command.
+
+################## Port Numbers #######################
+
+total Numebers - 65535
+
+Well Known Ports: 0 through 1023.
+Registered Ports: 1024 through 49151.
+Dynamic/Private : 49152 through 65535.
+
+
+20 - FTP (data transfer)
+
+21 - FTP (connection establishment)
+
+22 - ssh 
+
+23 - telnet
+
+25 - smtp (simple mail transfer protocal)
+
+53 - DNS (Domain Name System)
+
+67 - DHCP  (Dynamic Host Configuration Protocol)
+
+80 - httpd 
+
+123 - NTP (Network Time Protocal)
+
+143  - Internet Message Access Protocol (IMAP) Management of Digital Mail)
+
+389  - ldap
+
+443  - https
+
+2049 - NFS (Network File system)
+
+3306 - mysql
+
+
+###################### ssh vs telnet #########################
+
+               ssh                        telnet
+
+1.port number 22                    1. port number 23
+
+2.it will encrypt the password.     2. it won't encrypt the password.it will save the password in plain text formate.
+
+#telnet localhost 22 -> to check the port connectivity.
+
+#ctrl ] and quit -> to quit from the telnet prompt
+
+
+################## Process Management ##########################
+
+# uptime -> to see server uptime, number of users logged in and load average.
+
+ 12:43:03 up 26 days, 15:47,  3 users,  load average: 0.03, 0.01, 0.00
+
+# w     ->   to see how many users logged in and what they are performing.
+ 12:44:43 up 26 days, 15:48,  3 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM              LOGIN@      IDLE   JCPU   PCPU WHAT
+user1 pts/0    10.1.18.19           11:07       1:05m  0.26s  0.23s ssh
+user2 pts/1    10.1.18.10           11:17       1:25m  0.04s  0.03s ssh 
+user2 pts/2    10.54.230.1          12:38       0.00s  0.16s  0.01s sshd
+
+->load average: 0.03,    0.01,     0.00
+                 1min    5min      15min
+
+1.Loadaverage: average cpu utilzation in the server
+2.Load avg shoudn't be more than number of cpus
+
+#yes > /dev/null & - > to generate the cpu utilization manullay
+
+#cat /proc/cpuinfo  | grep -i processor -> to see the nubmer of cpu
+
+#cat /proc/cpuinfo -> to see the cpu information in the server
+
+#free -m  -> to display the memory in mb
+             total       used       free     shared    buffers     cached
+Mem:         64419      64067        351       8159         10      15375
+-/+ buffers/cache:      48681      15737
+Swap:         2047        157       1890
+
+
+#top
+top - 12:56:27 up 26 days, 16:00,  4 users,  load average: 0.14, 0.05, 0.01
+Tasks: 158 total,   1 running, 157 sleeping,   0 stopped,   0 zombie
+Cpu0  :  2.3%us,  2.3%sy,  0.0%ni, 89.8%id,  5.7%wa,  0.0%hi,  0.0%si,  0.0%st
+Mem:   3915892k total,  1381044k used,  2534848k free,   315532k buffers
+Swap:  6160380k total,    48928k used,  6111452k free,   556616k cached
+
+  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+10955 root      20   0 19280 1480 1084 R  7.2  0.0   0:00.23 top
+18554 root      20   0  604m  17m 7484 S  7.2  0.5 824:10.18 BESClient
+    1 root      20   0 21456  580  416 S  0.0  0.0   0:29.91 init
+    2 root      20   0     0    0    0 S  0.0  0.0   0:03.23 kthreadd
+    3 root      RT   0     0    0    0 S  0.0  0.0   0:00.00 migration/0
+    4 root      20   0     0    0    0 S  0.0  0.0   0:15.70 ksoftirqd/0
+
+
+-> To put this simply, the negative values (Eg. -20) gives higher priority to a process and positive values (Eg. 19) gives lower priority.
+
+
+Process states:
+R - Running     : the process which are running in the server.
+T - Termintated : the process which has been terminated or killed.
+Z - Zombie      : the process which is successfully terminated but its status not updated to its parent PID.
+S - Sleep       : the process which are waiting for the resouces in the server.
+
+#ps aux | head -10 - > to see  all process in the server
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0  21456   580 ?        Ss   May08   0:29 /sbin/init
+root         2  0.0  0.0      0     0 ?        S    May08   0:03 [kthreadd]
+root         3  0.0  0.0      0     0 ?        S    May08   0:00 [migration/0]
+root         4  0.0  0.0      0     0 ?        S    May08   0:15 [ksoftirqd/0]
+root         5  0.0  0.0      0     0 ?        S    May08   0:00 [stopper/0]
+root         6  0.0  0.0      0     0 ?        S    May08   0:02 [watchdog/0]
+root         7  0.0  0.0      0     0 ?        S    May08   2:17 [events/0]
+root         8  0.0  0.0      0     0 ?        S    May08   0:00 [events/0]
+root         9  0.0  0.0      0     0 ?        S    May08   0:00 [events_long/0]
+
+#ps -ef -> to see the all process information.
+
+#kill -9 PID -> to kill the process immediatley.
+
+#kill -15 PID ->  to kill the process one by one from bottom to top (child to parent).
+
+sar (system activity report).
+
+#sar 2 5 -> to see the historical load average.
+
+Linux 2.6.32-754.29.1.el6.x86_64 (LAPGTY01.apdc.mgmt.axa-tech.intraxa)  06/04/2020      _x86_64_        (1 CPU)
+
+01:37:09 PM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+01:37:11 PM     all      0.50      0.00      1.51      0.00      0.00     97.99
+01:37:13 PM     all      1.00      0.00      2.00      0.00      0.00     97.00
+01:37:15 PM     all      1.00      0.00      1.99      0.50      0.00     96.52
+01:37:17 PM     all      0.50      0.00      2.01      0.00      0.00     97.49
+01:37:19 PM     all      1.00      0.00      1.99      0.00      0.00     97.01
+Average:        all      0.80      0.00      1.90      0.10      0.00     97.20
+
+
+
+#sar -f /var/log/sa/sa10 -s "start time" -e "end time"       ->  Displays CPU usage broken down by all cores for the 10day day of the month from sa10 file.
+
+#sar -r -f /var/log/sa/sa10    -s "start time" -e "end time" -> Displays memory usage broken down by all cores for the 10day day of the month from sa10 file.
+
+#sar -d -f /var/log/sa/sa10    -s "start time" -e "end time" -> Displays disk usage broken down by all cores for the 10day day of the month from sa10 file.
+
+############################ crontab ########################
+
+#service crond status
+
+/etc/crontab     -> configuaration file.
+
+/etc/hosts.allow -> to allow the access for any user.
+/etc/hosts.deny  -> to deny the access for any user.
+
+#crontab -e  -> to give the entries in corntab
+#crontab -l -> to list the cronjobs
+#crontab -l -u username -> to display the cronjobs belongs to user.
+
+ min    hours      Dayofmonth      Month      Dayofweek      ( Script     or command )
+ 0-59   0-23        1-31           1-12         0-6           deepthi.sh  or reboot
+ 30     15          9               03           *             reboot        
+ 45     23           7              7            *             deepthi.sh
+ 38     14           15             8            *             IND.sh
+ */10   14-16        9              3            *  Goodboy.sh  -> goodboy.sh script going to be execute for every 10 miutes in b/W 02 pm - 04 pm              
+  2     *            *              *            *             Ping 10.54.232.10 
+  14     15         15-21           3            *             sunday.sh -> 
+
+julay 7th 11:45 pm
+Aug 15th 02:38PM 
+March 9th 02-03 10min 
+
+1-7 ->  1st week
+8-14->  2nd week
+15-21-> 3rd week
+22-28-> 4th week
+
+
+2nd Saturady  02:30 Ravi.sh
+
+30	14	8-14     2-4  6  ravi.sh
+
+3rd Friday  02:30 Ravi.sh
+
+30	14	15-21 	*  5 ravi.sh
+
+4th sunday 05:24pm RAVI.sh
+
+24	17	22-28	* 0 RAVI.sh
+
+3rd sunday 06:30am  allok.sh
+
+############# file system #############
+
+1.standard file system -> standard fs can't be resize.
+2.LVM file system      -> LVM fs can be resized. its a best practise for all application file systems.
+
+#df -h -> how to see the mounted file system.
+
+#df -h --total  -> to see the total storage size.
+
+#du -sh * | grep G -> to see the utilization of the any file system.
+
+########## Standard File system ###########
+
+#fdisk -l -> to see the attached disks at the server end.
+
+#mkfs.ext4 /dev/xvdf ->  formate the disks with desired file system type ( ext3,ext4,XFS)
+
+#mkdir /paytm  -> to create the directory
+
+#mount -t ext4 /dev/xvdf /paytm  -> to mount the file system on /paytm
+
+#vi /etc/fstab
+
+Filesystem    mountpoint     filesystem type        mountoptions fsck  dump       
+
+/dev/xvdf     /paytm              ext4                 default    0   0
+
+#df -hTP -> to verify the mounted file systems
+
+#fallocate -l +9G ravi  -> to create the file with desired size
+
+############ LVM file systems #############
+
+#fdisk -l  -> to see the attached disks
+
+#/dev/xvdf -> 20G
+PV -> physical volume 
+
+#pvcreate  diskname -> to create the PV
+#pvs
+
+VG  -> volume Group
+
+#vgcreate vg00 pvname  -> to create the VG
+#vgs
+
+LV -> Logical Volume
+
+#lvcreate -n lv00 -L +10G vg00
+#lvs
+
+#mkfs.ext4 /dev/mapper/vg00-lv00
+
+#mkdir /paytm
+
+#mount -t ext4 /dev/mapper/vg00-lv00 /paytm
+
+#vi /etc/fstab
+
+Filesystem                 mountpoint     file system type    mountoptions fsck  dump    
+/dev/mapper/vg00-lv00      /paytm            ext4              defaults     0    0
+
+#df -hTP  -> to see the mounted file system
+
+eg1:
+    3  pvcreate /dev/xvdf
+    4  pvs
+    5  vgcreate vg00 /dev/xvdf
+    6  vgs
+    7  lvcreate -L +10G -n lv00 vg00
+    8  lvs
+    9  mkfs.ext4 /dev/mapper/vg00-lv00
+   10  mkdir /paytm
+   11  mount -t ext4 /dev/mapper/vg00-lv00 /paytm
+   12  vi /etc/fstab
+   13  df -hTP
+
+
+########### LVEXTEND ############
+
+case1:if we have a space in VG
+
+#lvextend -L +5G /dev/mapper/vg00-lv00
+
+#resize2fs /dev/mapper/vg00-lv00
+
+
+
+case2:if we don't have space in VG
+
+#fdisk -l  -> to see the attached disks
+
+#/dev/xvdg -> 10G
+
+PV -> physical volume 
+
+#pvcreate  diskname -> to create the PV
+#pvs
+
+VG  -> volume Group
+
+#vgextend vg00 pvname  -> to extend the VG
+#vgs
+
+#lvextend -L +5G /dev/mapper/vg00-lv00
+
+#resize2fs /dev/mapper/vg00-lv00
+
